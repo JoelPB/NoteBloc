@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Note Bloc</string>
+    <string name="insert">Insert</string>
+    <string name="digite_o_titulo">Digite o título</string>
+    <string name="digite_a_nota">Digite a nota</string>
+    <string name="editar">Editar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="inserir">Inserir</string>
+</resources>
