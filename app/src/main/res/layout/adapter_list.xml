@@ -6,10 +6,12 @@
     android:layout_height="wrap_content"
     >
 
-    <Button
-        android:id="@+id/btnTituloList"
+    <TextView
+        android:id="@+id/tvTituloList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:layout_marginTop="4dp"/>
 
 </LinearLayout>

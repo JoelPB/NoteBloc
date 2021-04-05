@@ -45,7 +45,7 @@ class ListAdapter(
 
 
     inner class ViewHolder(intemView: View): RecyclerView.ViewHolder(intemView) {
-        val _titulo = intemView.findViewById<TextView>(R.id.btnTituloList)
+        val _titulo = intemView.findViewById<TextView>(R.id.tvTituloList)
     }
 
 
