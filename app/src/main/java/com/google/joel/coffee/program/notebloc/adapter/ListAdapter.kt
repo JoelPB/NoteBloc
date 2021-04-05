@@ -17,7 +17,7 @@ import kotlin.reflect.KFunction1
 class ListAdapter(
     val notaList: List<Nota>,
     internal var context: Context
-    // private val callbacks: KFunction1<Int, Unit>
+//    private val callbacks: KFunction1<Int, Unit>
     ): RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     // Criação do ViewHolder com base no layout
@@ -31,7 +31,8 @@ class ListAdapter(
         val nota = notaList[position]
 
         holder._titulo.text = nota.titulo
-        holder._titulo.setBackgroundColor(Color.GRAY)
+        if (position % 2 ==  0) holder._titulo.setBackgroundColor(Color.GRAY)
+        else holder._titulo.setBackgroundColor(Color.DKGRAY)
         holder._titulo.setOnClickListener {
             val intent = Intent(context, NotaActivity::class.java)
             intent.putExtra("edit", true)

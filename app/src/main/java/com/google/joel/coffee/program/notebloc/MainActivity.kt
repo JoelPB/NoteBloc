@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         btnClick()
     }
 
+    override fun onResume() {
+        super.onResume()
+        initScreen()
+    }
+
     private fun btnClick() {
         binding.btnInsert.setOnClickListener {
             val intent = Intent(this, NotaActivity::class.java)
@@ -39,15 +44,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initScreen() {
         notaList = databaseHandler.notas()
-        // listAdapter = ListAdapter(notaList, this, this::deleteAdapter)
+//        listAdapter = ListAdapter(notaList, this, this::deleteAdapter)
         listAdapter = ListAdapter(notaList, this)
         linearLayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = listAdapter
     }
 
-    private fun deleteAdapter(position: Int){
-        notaList.removeAt(position)
-        listAdapter.notifyItemRemoved(position)
-    }
+//    private fun deleteAdapter(position: Int){
+//        notaList.removeAt(position)
+//        listAdapter.notifyItemRemoved(position)
+//    }
 }

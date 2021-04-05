@@ -72,6 +72,29 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null
         return notasList
     }
 
+    fun updataNota(nota: Nota): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(TITULO, nota.titulo)
+            put(ANOTACAO, nota.anotacao)
+        }
+        val success = db.update(TABLE_NAME, values, ID + "=?", arrayOf(nota.id.toString())).toLong()
+        db.close()
+        return ("$success").toInt() != -1
+    }
+
+    fun deleteNota(id: Int): Boolean{
+        val db = this.writableDatabase
+        val success = db.delete(TABLE_NAME, ID + "=?", arrayOf(id.toString())).toLong()
+        return ("$success").toInt() != -1
+    }
+
+    fun deleteAllNotas(): Boolean {
+        val db = this.writableDatabase
+        val success = db.delete(TABLE_NAME, null, null).toLong()
+        return ("$success").toInt() != -1
+    }
+
     companion object {
         private val DB_VERSION = 1
         private val DB_NAME = "Bloco"
