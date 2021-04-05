@@ -12,31 +12,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/digite_o_titulo"
-        android:layout_margin="8dp"
+        android:textAlignment="center"
+        android:background="@color/design_default_color_secondary_variant"
+        android:layout_marginBottom="16dp"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
-        android:id="@+id/editNota"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/digite_a_nota"
-        android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/editTitulo"/>
 
-    <Button
-        android:id="@+id/btnEditInserir"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/inserir"
-        android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/editNota"/>
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/editTitulo"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cancelar"
-        android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/btnEditInserir"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editNota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/digite_a_nota"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/btnEditInserir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inserir"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/editNota"/>
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancelar"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintTop_toBottomOf="@id/btnEditInserir"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
