@@ -1,9 +1,10 @@
 package com.google.joel.coffee.program.notebloc
 
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.joel.coffee.program.blocodenotas.model.Nota
 import com.google.joel.coffee.program.notebloc.databinding.ActivityNotaBinding
 import com.google.joel.coffee.program.notebloc.db.DatabaseHandler
@@ -62,6 +63,20 @@ class NotaActivity : AppCompatActivity() {
 
         binding.btnCancel.setOnClickListener {
             finish()
+        }
+
+        binding.btnDelete.setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle("Deletar")
+                    .setMessage("Deseja deletar a anotação?")
+                    .setPositiveButton("Sim"){ dialog, which ->
+                        databaseHandler.deleteNota(position)
+                        Toast.makeText(this, "Item $position Deletado", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                    .setNegativeButton("Não"){ dialog, which -> }
+                    .show()
+            //finish()
         }
     }
 }
