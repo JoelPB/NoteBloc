@@ -3,6 +3,7 @@ package com.google.joel.coffee.program.notebloc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.joel.coffee.program.blocodenotas.model.Nota
@@ -32,7 +33,9 @@ class NotaActivity : AppCompatActivity() {
             val nota = databaseHandler.getNota(position)
             binding.editTitulo.setText(nota.titulo)
             binding.editNota.setText(nota.anotacao)
-            binding.btnEditInserir.setText("Editar")
+            binding.btnEditInserir.setText("Salvar alteração")
+        } else {
+            binding.btnDelete.visibility = View.GONE
         }
 
         eventClick(edit, position)
@@ -72,11 +75,11 @@ class NotaActivity : AppCompatActivity() {
                     .setPositiveButton("Sim"){ dialog, which ->
                         databaseHandler.deleteNota(position)
                         Toast.makeText(this, "Item $position Deletado", Toast.LENGTH_LONG).show()
+
                         finish()
                     }
                     .setNegativeButton("Não"){ dialog, which -> }
                     .show()
-            //finish()
         }
     }
 }

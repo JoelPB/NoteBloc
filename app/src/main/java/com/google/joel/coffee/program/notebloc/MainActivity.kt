@@ -44,8 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initScreen() {
         notaList = databaseHandler.notas()
-//        listAdapter = ListAdapter(notaList, this, this::deleteAdapter)
-        listAdapter = ListAdapter(notaList, this)
+        listAdapter = ListAdapter(notaList, this, this::statusNotaAdapter)
         linearLayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = listAdapter
@@ -55,4 +54,15 @@ class MainActivity : AppCompatActivity() {
 //        notaList.removeAt(position)
 //        listAdapter.notifyItemRemoved(position)
 //    }
+
+    private fun statusNotaAdapter(up: Boolean, position: Int){
+        if (up) {
+            listAdapter.notifyItemMoved(position, position - 1)
+        } else {
+            listAdapter.notifyItemMoved(position, position + 1)
+        }
+
+        onResume()
+
+    }
 }

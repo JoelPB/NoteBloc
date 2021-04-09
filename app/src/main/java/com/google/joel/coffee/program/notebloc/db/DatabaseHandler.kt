@@ -4,9 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
 import com.google.joel.coffee.program.blocodenotas.model.Nota
 
-class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+class DatabaseHandler(var context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TABLE_NAME (" +
                 "$ID INTEGER PRIMARY KEY," +
@@ -86,6 +87,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null
     fun deleteNota(id: Int): Boolean{
         val db = this.writableDatabase
         val success = db.delete(TABLE_NAME, ID + "=?", arrayOf(id.toString())).toLong()
+        db.close()
         return ("$success").toInt() != -1
     }
 
@@ -93,6 +95,34 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null
         val db = this.writableDatabase
         val success = db.delete(TABLE_NAME, null, null).toLong()
         return ("$success").toInt() != -1
+    }
+
+    
+    fun moveToUpDown(up: Boolean, id: Int, size: Int) {
+        if (up) {
+            if (id > 1) {
+                var nota1 = getNota(id)
+                var nota2 = getNota( id - 1)
+
+                nota1.id = id -1
+                updataNota(nota1)
+                nota2.id = id
+                updataNota(nota2)
+//                Toast.makeText(context, "id1 ${nota1.id}  id2 ${nota2.id}", Toast.LENGTH_SHORT).show()
+
+            }
+        } else {
+            if (id < size) {
+                var nota1 = getNota(id)
+                var nota2 = getNota( id + 1)
+
+                nota1.id = id + 1
+                updataNota(nota1)
+                nota2.id = id
+                updataNota(nota2)
+//                Toast.makeText(context, "<id1 ${nota1.id}  <id2 ${nota2.id}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {
