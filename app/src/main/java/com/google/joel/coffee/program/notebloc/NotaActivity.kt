@@ -1,6 +1,7 @@
 package com.google.joel.coffee.program.notebloc
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -14,10 +15,10 @@ import com.google.joel.coffee.program.notebloc.db.DatabaseHandler
 
 class NotaActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityNotaBinding
+    private lateinit var binding: ActivityNotaBinding
 
     // Base de dados SQLite
-    var databaseHandler = DatabaseHandler(this)
+    private var databaseHandler = DatabaseHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +32,42 @@ class NotaActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_nota, menu)
+
+        // Deixa invisível previous/next
+        if (posit == 0) {
+            menu!!.findItem(R.id.previous).setVisible(false)
+            menu!!.findItem(R.id.next).setVisible(false)
+        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.previous -> Toast.makeText(this, "previous", Toast.LENGTH_SHORT).show()
-            R.id.next -> Toast.makeText(this, "next", Toast.LENGTH_SHORT).show()
+            R.id.previous -> {
+                if (posit > 1) {
+                    val intent = Intent(this, NotaActivity::class.java)
+                    intent.putExtra("edit", true)
+                    intent.putExtra("position", posit - 1)
+                    this.startActivity(intent)
+                }
+//                Toast.makeText(this, "previous para $posit", Toast.LENGTH_SHORT).show()
+            }
+            R.id.next -> {
+                if (posit < size) {
+                    val intent = Intent(this, NotaActivity::class.java)
+                    intent.putExtra("edit", true)
+                    intent.putExtra("position", posit + 1)
+                    this.startActivity(intent)
+                }
+//                Toast.makeText(this, "next para $posit", Toast.LENGTH_SHORT).show()
+            }
         }
         return true
     }
+
+//    override fun onContextMenuClosed(menu: Menu) {
+//        super.onContextMenuClosed(menu)
+//    }
 
     private fun editNota() {
         val edit = intent.getBooleanExtra("edit", false)
@@ -48,11 +75,15 @@ class NotaActivity : AppCompatActivity() {
 
         if (edit){
             val nota = databaseHandler.getNota(position)
-            binding.editTitulo.setText(nota.titulo)
-            binding.editNota.setText(nota.anotacao)
-            binding.btnEditInserir.setText("Salvar alteração")
+            binding.run {
+                editTitulo.setText(nota.titulo)
+                editNota.setText(nota.anotacao)
+            }
+            binding.btnEditInserir.text = "Salvar alteração"
 //            binding.previus.visibility = View.VISIBLE
 //            binding.next.visibility = View.VISIBLE
+            posit = nota.id
+            size = databaseHandler.notas().size
         } else {
             binding.btnDelete.visibility = View.GONE
         }
@@ -71,34 +102,50 @@ class NotaActivity : AppCompatActivity() {
                                     binding.editNota.text.toString()
                             )
                     databaseHandler.updataNota(nota)
-                    finish()
+//                    finish()
+                    startMainActivity()
                 } else {
                     val nota = Nota(position,
                                     binding.editTitulo.text.toString(),
                                     binding.editNota.text.toString()
                             )
                     databaseHandler.addNota(nota)
-                    finish()
+//                    finish()
+                    startMainActivity()
                 }
             }
         }
 
         binding.btnCancel.setOnClickListener {
-            finish()
+//            finish()
+            startMainActivity()
         }
 
         binding.btnDelete.setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle("Deletar")
                     .setMessage("Deseja deletar a anotação?")
-                    .setPositiveButton("Sim"){ dialog, which ->
+                    .setPositiveButton("Sim"){ _, _ ->
                         databaseHandler.deleteNota(position)
                         Toast.makeText(this, "Item $position Deletado", Toast.LENGTH_LONG).show()
 
-                        finish()
+//                        finish()
+                        startMainActivity()
                     }
-                    .setNegativeButton("Não"){ dialog, which -> }
+                    .setNegativeButton("Não"){ _, _ -> }
                     .show()
         }
+    }
+
+    private fun startMainActivity(){
+        posit = 0
+        size = 0
+        val intent = Intent(this, MainActivity::class.java)
+        this.startActivity(intent)
+
+    }
+    companion object {
+        var posit: Int = 0
+        var size: Int = 0
     }
 }
