@@ -7,4 +7,5 @@
     <string name="cancelar">Cancelar</string>
     <string name="inserir">Inserir</string>
     <string name="excluir">Excluir</string>
+    <string name="buscar">Buscar</string>
 </resources>

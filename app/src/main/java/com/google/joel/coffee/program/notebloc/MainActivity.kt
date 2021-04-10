@@ -3,6 +3,9 @@ package com.google.joel.coffee.program.notebloc
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.joel.coffee.program.blocodenotas.model.Nota
 import com.google.joel.coffee.program.notebloc.adapter.ListAdapter
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
         initScreen()
         btnClick()
     }
@@ -33,6 +38,18 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         initScreen()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.search -> Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
+        }
+        return true
     }
 
     private fun btnClick() {
@@ -49,11 +66,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = listAdapter
     }
-
-//    private fun deleteAdapter(position: Int){
-//        notaList.removeAt(position)
-//        listAdapter.notifyItemRemoved(position)
-//    }
 
     private fun statusNotaAdapter(up: Boolean, position: Int){
         if (up) {

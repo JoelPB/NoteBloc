@@ -3,6 +3,8 @@ package com.google.joel.coffee.program.notebloc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -22,7 +24,22 @@ class NotaActivity : AppCompatActivity() {
         binding = ActivityNotaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar2)
+
         editNota()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_nota, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.previous -> Toast.makeText(this, "previous", Toast.LENGTH_SHORT).show()
+            R.id.next -> Toast.makeText(this, "next", Toast.LENGTH_SHORT).show()
+        }
+        return true
     }
 
     private fun editNota() {
@@ -34,6 +51,8 @@ class NotaActivity : AppCompatActivity() {
             binding.editTitulo.setText(nota.titulo)
             binding.editNota.setText(nota.anotacao)
             binding.btnEditInserir.setText("Salvar alteração")
+//            binding.previus.visibility = View.VISIBLE
+//            binding.next.visibility = View.VISIBLE
         } else {
             binding.btnDelete.visibility = View.GONE
         }
