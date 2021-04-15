@@ -8,4 +8,8 @@
     <string name="inserir">Inserir</string>
     <string name="excluir">Excluir</string>
     <string name="buscar">Buscar</string>
+    <string name="somar">Somar</string>
+    <string name="ascendente">Ascendente</string>
+    <string name="descendente">Descendente</string>
+    <string name="ordenar">Ordenar</string>
 </resources>

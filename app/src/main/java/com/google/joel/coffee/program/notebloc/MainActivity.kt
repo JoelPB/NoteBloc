@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         initScreen()
-        btnClick()
+//        btnClick()
     }
 
     override fun onResume() {
@@ -70,38 +70,66 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId){
-//            R.id.search -> Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
-//        }
-//        return true
-//    }
-
-    private fun btnClick() {
-        binding.btnInsert.setOnClickListener {
-            val intent = Intent(this, NotaActivity::class.java)
-            startActivityForResult(intent, 1)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.plus -> {
+                val intent = Intent(this, NotaActivity::class.java)
+                startActivityForResult(intent, 1)
+            }
+            R.id.ascendente -> {
+                Toast.makeText(this@MainActivity, "Ascendente", Toast.LENGTH_SHORT).show()
+                notaList = databaseHandler.notas()
+                if (notaList.size > 0) {
+                    notaList.sortBy { (it.titulo).toUpperCase() }
+                    atulizaRecyclerView(notaList)
+                }
+            }
+            R.id.descendente -> {
+                Toast.makeText(this@MainActivity, "Descendente", Toast.LENGTH_SHORT).show()
+                notaList = databaseHandler.notas()
+                if (notaList.size > 0) {
+                    notaList.sortBy { (it.titulo).toUpperCase() }
+                    notaList.reverse()
+                    atulizaRecyclerView(notaList)
+                }
+            }
         }
+        return true
     }
+
+//    private fun btnClick() {
+//        binding.btnInsert.setOnClickListener {
+//            val intent = Intent(this, NotaActivity::class.java)
+//            startActivityForResult(intent, 1)
+//        }
+//    }
 
     private fun initScreen() {
         notaList = databaseHandler.notas()
-        listAdapter = ListAdapter(notaList, this, this::statusNotaAdapter)
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = linearLayoutManager
-        binding.recyclerView.adapter = listAdapter
+//        listAdapter = ListAdapter(notaList, this, this::statusNotaAdapter)
+//        linearLayoutManager = LinearLayoutManager(this)
+//        binding.recyclerView.layoutManager = linearLayoutManager
+//        binding.recyclerView.adapter = listAdapter
+        atulizaRecyclerView(notaList)
     }
 
     private fun initScreen(search: String) {
         notaList = (databaseHandler.notas()).filter {
             (it.titulo).contains(search, true)
         } as ArrayList<Nota>
+//        listAdapter = ListAdapter(notaList, this, this::statusNotaAdapter)
+//        linearLayoutManager = LinearLayoutManager(this)
+//        binding.recyclerView.layoutManager = linearLayoutManager
+//        binding.recyclerView.adapter = listAdapter
+        atulizaRecyclerView(notaList)
+    }
+
+    private fun atulizaRecyclerView(notaList: ArrayList<Nota>) {
         listAdapter = ListAdapter(notaList, this, this::statusNotaAdapter)
         linearLayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = listAdapter
     }
-
 
     private fun statusNotaAdapter(up: Boolean, position: Int){
         if (up) {

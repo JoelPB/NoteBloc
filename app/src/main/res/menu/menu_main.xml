@@ -9,6 +9,28 @@
         android:title="@string/buscar"
         android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/plus"
+        android:title="@string/somar"
+        android:icon="@drawable/ic_baseline_library_add_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/order"
+        android:title="@string/ordenar"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/ascendente"
+                android:title="@string/ascendente"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/descendente"
+                android:title="@string/descendente"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
 
 </menu>
